@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: dj-orange
-        image: inforian/dj:orange
+        image: inforian/mtech:orange
         ports:
         - containerPort: 8000

@@ -9,22 +9,6 @@
 	</head>
 	<body>
 		<!-- Banner -->
-			<section style="display: flex; justify-content: space-evenly; align-items: center; padding: 2em">
-                <section id="sms" style="display: flex; flex: 1; justify-content: space-evenly; flex-direction: row; border-right: thin solid lightgray;" >
-                    <form name="OTPForm" id="OTPForm">
-                        <input placeholder="Phone Number" id="otp-phoneno"><br/>
-                        <button class="button special" type="submit" style="margin-top: 1em">Generate & Send OTP</button>
-                    </form>
-                </section>
-                <section id="notify" style="display: flex; flex: 1; justify-content: space-evenly; flex-direction: row" >
-                    <form>
-                        <input placeholder="Phone Number" id="sms-phoneno"><br/>
-                        <input placeholder="SMS Body" id="sms-body"><br/>
-
-                        <button class="button special" type="submit" style="margin-top: 1em">Send Notification</button>
-                    </form>
-                </section>
-            </section>
             <section id="banner">
                 <h2><strong>Deployment</strong> of <br>
                     <strong>Micro-Services</strong> <br>
@@ -32,13 +16,34 @@
                 </h2>
 				<p>Brought to you by Neeraj Dhiman </p>
 			</section>
+            <div id="msg_div">
+                <span id="msg"></span>
+            </div>
+			<section style="display: flex; justify-content: space-evenly; align-items: center; padding: 2em">
 
+                <section id="sms" style="display: flex; flex: 1; justify-content: space-evenly; flex-direction: row; border-right: thin solid lightgray;" >
+                    <form name="OTPForm" id="OTPForm">
+                        <input placeholder="Phone Number" id="otp-phoneno"><br/>
+                        <button class="button special" type="submit" style="margin-top: 1em">Generate & Send OTP</button>
+                    </form>
+                </section>
+                <section style="display: flex; flex: 1; justify-content: space-evenly; flex-direction: row" >
+                    <form name="notifyForm" id="notifyForm">
+                        <input placeholder="Phone Number" id="sms-phoneno"><br/><br>
+                        <input placeholder="SMS Body" id="sms-body"><br/>
+
+                        <button class="button special" type="submit" style="margin-top: 1em">Send Notification</button>
+                    </form>
+                </section>
+            </section>
+    <footer class="footer-pink">
+        <span style="margin: 0 0 0 484px">Micro-services deployment using Kubernetes</span>
+    </footer>
 	</body>
 
 
 {#    jquery #}
     <script type="application/javascript" src="{% static 'jquery.min.js' %}" ></script>
-{#    <script type="application/hal+json" src="{% static 'jquery-ui.js' %}" ></script>#}
 
     <script>
         $(document).ready(function () {
@@ -58,16 +63,16 @@
                     },
                     data : {"phone_no":phone_no},
                     error: function (response) {
-                        console.log('OTP Service is down')
+                        $('#msg_div').text('OTP Service is down').addClass('isa_warning')
                     },
                     success: function (response) {
-                        console.log(response.otp)
+                        $('#msg_div').text('OTP Sent.').addClass('isa_success')
                     }
                 });
             });
 
             {# Only Notification #}
-            $('#notify').submit(function (event) {
+            $('#notifyForm').submit(function (event) {
                 event.preventDefault();
                 var csrftoken = '{{csrf_token}}';
                 var phone_no =  $('#sms-phoneno').val();
@@ -82,10 +87,10 @@
                     },
                     data : {"phone_no":phone_no, "body":body},
                     error: function (response) {
-                        console.log('OTP Service is down')
+                        $('#msg_div').text('Notify Service is down').addClass('isa_warning')
                     },
                     success: function (response) {
-                        console.log(response)
+                        $('#msg_div').text('Sample SMS Sent.').addClass('isa_success')
                     }
                 });
             });

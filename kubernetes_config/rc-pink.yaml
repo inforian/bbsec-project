@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: dj-pink
-        image: inforian/dj:pink
+        image: inforian/mtech:pink_v2
         ports:
         - containerPort: 8000

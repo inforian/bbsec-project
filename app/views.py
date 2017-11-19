@@ -1,10 +1,12 @@
-from django.shortcuts import render
 import requests, datetime
 from django.http import JsonResponse
+from django.conf import settings
+
 # Create your views here.
 
 
-OTP_URL = 'http://localhost:8017/generate-otp/hotp/'
+OTP_URL = 'http://pyotp.noapp.mobi/generate-otp/hotp/'
+NOTIFY_URL = 'http://notify.noapp.mobi/micro-service/notification/sms/msg91/'
 
 
 def create_otp(request):
@@ -42,13 +44,11 @@ def send_notification(body, phone_no):
     """
 
     """
-    url = 'http://local.veris.in:8001/micro-service/notification/sms/msg91/'
-
     data = {
         "to": phone_no,
         "from_": "TESTSSS",
         "provider": "msg91",
         "body": body,
-        "auth_key": "176999AezfzhYs3c59f19ef6"
+        "auth_key": getattr(settings, 'MSG_91_AUTHKEY')
     }
-    return requests.post(url, data=data)
+    return requests.post(NOTIFY_URL, data=data)
