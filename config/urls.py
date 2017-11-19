@@ -37,6 +37,7 @@ urlpatterns = [
     # url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
     # url(r'^docs/', include_docs_urls(title=API_TITLE, description='')),
     url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'', include('app.urls'))
 
 ]
 
